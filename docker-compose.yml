@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress:php7.2-apache # PHPのバージョン変更可能
+    container_name: wp
+    ports:
+      - 8090:80
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./html:/var/www/html
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: wp_pma
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    depends_on:
+      - db
+    ports:
+      - 8890:80
+
+  db:
+    image: mysql:5.7 # バージョン指定可能
+    container_name: wp_mysql
+    ports:
+      - 13307:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/log/:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_USER: root
+      TZ: Asia/Tokyo
