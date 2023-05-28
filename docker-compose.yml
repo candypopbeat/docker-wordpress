@@ -3,7 +3,7 @@ version: '3'
 services:
   wordpress:
     image: wordpress:php7.2-apache # PHPのバージョン変更可能
-    container_name: wp
+    # container_name: wp
     ports:
       - 8090:80
     depends_on:
@@ -18,7 +18,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: wp_pma
+    # container_name: wp_pma
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=db
@@ -31,7 +31,7 @@ services:
 
   db:
     image: mysql:5.7 # バージョン指定可能
-    container_name: wp_mysql
+    # container_name: wp_mysql
     ports:
       - 13307:3306
     volumes:
